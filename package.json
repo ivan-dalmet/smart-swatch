@@ -1,10 +1,18 @@
 {
-  "name": "react-hooks",
-  "version": "0.1.0",
+  "name": "smart-swatch",
+  "version": "1.0.0",
   "private": true,
   "dependencies": {
+    "@chakra-ui/core": "^0.3.2",
+    "@emotion/core": "^10.0.17",
+    "@emotion/styled": "^10.0.17",
+    "chroma-js": "^2.0.6",
+    "emotion-theming": "^10.0.19",
+    "file-saver": "^2.0.2",
     "react": "^16.9.0",
+    "react-color": "^2.17.3",
     "react-dom": "^16.9.0",
+    "react-icons": "^3.7.0",
     "react-scripts": "3.1.1"
   },
   "scripts": {

@@ -1,25 +1,18 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { ThemeProvider, ColorModeProvider, CSSReset, Box } from "@chakra-ui/core";
+
+import { SmartSwatch } from './pages/SmartSwatch';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider>
+      <ColorModeProvider>
+        <CSSReset />
+        <Box p="8" maxW="6xl" m="auto">
+          <SmartSwatch />
+        </Box>
+      </ColorModeProvider>
+    </ThemeProvider>
   );
 }
 
