@@ -7,10 +7,14 @@ import {
   Input,
   InputGroup,
   InputLeftElement,
+  Icon,
   IconButton,
   Popover,
   PopoverTrigger,
   PopoverContent,
+  Stack,
+  Switch,
+  useColorMode,
 } from '@chakra-ui/core';
 
 import { FaPalette } from "react-icons/fa";
@@ -19,6 +23,7 @@ import { Swatch } from '../components/Swatch';
 
 export const SmartSwatch = () => {
   const [userColorInput, setUserColorInput] = useState('#C70833');
+  const { colorMode, toggleColorMode } = useColorMode();
 
   const lightnessMap = [0.95, 0.85, 0.75, 0.65, 0.55, 0.45, 0.35, 0.25, 0.15, 0.05];
   const saturationMap = [0.32, 0.16, 0.08, 0.04, 0, 0, 0.04, 0.08, 0.16, 0.32];
@@ -66,9 +71,21 @@ export const SmartSwatch = () => {
   return (
     <>
       <FormControl mb="4">
-        <FormLabel htmlFor="color">
-          Choose a color
-        </FormLabel>
+        <Stack isInline align="center" mb="2">
+          <FormLabel htmlFor="color" fontWeight="bold">
+            Choose a color
+          </FormLabel>
+          <Stack isInline ml="auto" align="center">
+            <Icon name="moon" size="14px" opacity={colorMode !== 'dark' ? '0.3' : null} />
+            <Switch
+              size="md"
+              isChecked={colorMode === 'light'}
+              onChange={toggleColorMode}
+              color="none"
+            />
+            <Icon name="sun" size="14px" opacity={colorMode !== 'light' ? '0.3' : null} />
+          </Stack>
+        </Stack>
         <Popover placement="bottom-start">
           <>
             <InputGroup>
