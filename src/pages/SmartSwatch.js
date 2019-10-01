@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import chroma from 'chroma-js';
 import { SketchPicker } from 'react-color';
 import {
+  Box,
   FormControl,
   FormLabel,
   Input,
@@ -14,9 +15,11 @@ import {
   PopoverContent,
   Stack,
   Switch,
+  Text,
+  Link,
   useColorMode,
 } from '@chakra-ui/core';
-import { FaPalette } from "react-icons/fa";
+import { FaPalette, FaHeart } from "react-icons/fa";
 
 import { Swatch } from '../components/Swatch';
 import { Logo } from '../components/Logo';
@@ -141,6 +144,27 @@ export const SmartSwatch = () => {
         colors={colorsHueDown}
         baseColorIndex={baseColorIndex}
       />
+
+      <Stack
+        isInline
+        fontSize="sm"
+        textAlign="center"
+        mt="12"
+        align="center"
+        justify="center"
+        color="gray.500"
+      >
+        <Text>Developed with</Text>
+        <Box as={FaHeart} size="12px" />
+        <Text>by</Text>
+        <Link href="https://ivan.dalmet.fr" color={colors[5].hex()}>
+          Ivan Dalmet
+        </Link>
+        <Text>-</Text>
+        <Link href="https://github.com/ivan-dalmet/smart-swatch" color={colors[5].hex()}>
+          GitHub
+        </Link>
+      </Stack>
     </>
   );
 };
