@@ -23,14 +23,16 @@ export const Color = ({ color, title, isActive, ...props }) => {
         <Button
           onClick={onCopy}
           variant="unstyled"
-          m="0"
           backgroundColor={color.hex()}
           align="center"
           justify="center"
+          m="0"
           p="2"
           rounded="none"
           fontSize="xs"
           textAlign="center"
+          minW="0"
+          lineHeight="1.1"
           color={chroma.contrast(color, 'white') < 4.5 ? 'black' : 'white'}
         >
           <Text

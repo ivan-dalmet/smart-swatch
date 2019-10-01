@@ -8,7 +8,7 @@ function App() {
     <ThemeProvider>
       <ColorModeProvider>
         <CSSReset />
-        <Box p="8" maxW="6xl" m="auto">
+        <Box px="8" pt="6" pb="12" maxW="6xl" m="auto">
           <SmartSwatch />
         </Box>
       </ColorModeProvider>

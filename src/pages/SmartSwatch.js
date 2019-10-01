@@ -16,10 +16,10 @@ import {
   Switch,
   useColorMode,
 } from '@chakra-ui/core';
-
 import { FaPalette } from "react-icons/fa";
 
 import { Swatch } from '../components/Swatch';
+import { Logo } from '../components/Logo';
 
 export const SmartSwatch = () => {
   const [userColorInput, setUserColorInput] = useState('#C70833');
@@ -70,22 +70,23 @@ export const SmartSwatch = () => {
 
   return (
     <>
-      <FormControl mb="4">
-        <Stack isInline align="center" mb="2">
-          <FormLabel htmlFor="color" fontWeight="bold">
-            Choose a color
-          </FormLabel>
-          <Stack isInline ml="auto" align="center">
-            <Icon name="moon" size="14px" opacity={colorMode !== 'dark' ? '0.3' : null} />
-            <Switch
-              size="md"
-              isChecked={colorMode === 'light'}
-              onChange={toggleColorMode}
-              color="none"
-            />
-            <Icon name="sun" size="14px" opacity={colorMode !== 'light' ? '0.3' : null} />
-          </Stack>
+      <Stack isInline align="flex-end" mb="2">
+        <Logo colors={colors} />
+        <Stack isInline ml="auto" align="center" mb="1">
+          <Icon name="moon" size="14px" opacity={colorMode !== 'dark' ? '0.3' : null} />
+          <Switch
+            size="md"
+            isChecked={colorMode === 'light'}
+            onChange={toggleColorMode}
+            color="none"
+          />
+          <Icon name="sun" size="14px" opacity={colorMode !== 'light' ? '0.3' : null} />
         </Stack>
+      </Stack>
+      <FormControl mb="6">
+        <FormLabel htmlFor="color" fontWeight="bold">
+          Choose a color
+        </FormLabel>
         <Popover placement="bottom-start">
           <>
             <InputGroup>
