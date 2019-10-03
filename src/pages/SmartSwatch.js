@@ -30,7 +30,7 @@ export const SmartSwatch = () => {
 
   const lightnessMap = [0.95, 0.85, 0.75, 0.65, 0.55, 0.45, 0.35, 0.25, 0.15, 0.05];
   const saturationMap = [0.32, 0.16, 0.08, 0.04, 0, 0, 0.04, 0.08, 0.16, 0.32];
-  const hueMap = [32, 16, 8, 4, 0, 0, 4, 8, 16, 32];
+  const hueMap = [0, 4, 8, 12, 16, 20, 24, 28, 32, 36];
 
   const userColor = chroma.valid(userColorInput.trim())
     ? chroma(userColorInput.trim())
@@ -60,7 +60,7 @@ export const SmartSwatch = () => {
       const hueDelta = hueMap[i] - hueMap[baseColorIndex];
       return hueDelta >= 0
         ? color.set('hsl.h', `+${hueDelta}`)
-        : color.set('hsl.h', `-${(hueDelta * -1) / 2}`)
+        : color.set('hsl.h', `+${(hueDelta * -1) / 2}`)
     });
 
   const colorsHueDown = colors
@@ -68,7 +68,7 @@ export const SmartSwatch = () => {
       const hueDelta = hueMap[i] - hueMap[baseColorIndex];
       return hueDelta >= 0
         ? color.set('hsl.h', `-${hueDelta}`)
-        : color.set('hsl.h', `+${(hueDelta * -1) / 2}`)
+        : color.set('hsl.h', `-${(hueDelta * -1) / 2}`)
     });
 
   return (
