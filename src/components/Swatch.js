@@ -4,6 +4,7 @@ import { Box, Stack, Text } from '@chakra-ui/core';
 import { Color } from './Color';
 import { CopySVG } from './CopySVG';
 import { CopyCSS } from './CopyCSS';
+import { CopyJS } from './CopyJS';
 import { SaveSketchPalette } from './SaveSketchPalette';
 
 const propTypes = {};
@@ -21,16 +22,20 @@ export const Swatch = ({ title, colors, baseColorIndex }) => {
         <Text
           fontSize="lg"
           fontWeight="bold"
-          >
+          my="1"
+        >
           {title}
         </Text>
-        <Box>
+        <Box my="1">
           <CopySVG colors={colors} />
         </Box>
-        <Box>
+        <Box my="1">
           <CopyCSS colors={colors} />
         </Box>
-        <Box>
+        <Box my="1">
+          <CopyJS colors={colors} />
+        </Box>
+        <Box my="1">
           <SaveSketchPalette colors={colors} />
         </Box>
       </Stack>

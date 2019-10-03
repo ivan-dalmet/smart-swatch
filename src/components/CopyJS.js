@@ -5,31 +5,32 @@ import { Button, Tooltip, useClipboard } from '@chakra-ui/core';
 const propTypes = {};
 const defaultProps = {};
 
-export const CopyCSS = ({ colors }) => {
-  const CSS = `
-:root {${colors.map((color, i) =>
+export const CopyJS = ({ colors }) => {
+  const JS = `
+{${colors.map((color, i) =>
   `
-  --color-${(i + 1) * 100}: ${color.hex()};`
-  ).join('')}
+  ${(i + 1) * 100}: '${color.hex()}',`
+).join('')}
 }`;
-  const { onCopy, hasCopied } = useClipboard(CSS);
+
+  const { onCopy, hasCopied } = useClipboard(JS);
 
   return (
     <Tooltip
       isOpen={hasCopied}
-      label="Paste it in your CSS file 😉"
+      label="Paste it in your JS file 😉"
       placement="top"
       zIndex="6"
     >
       <Button size="xs" onClick={onCopy}>
         {hasCopied
-          ? 'Copied! CSS variables'
-          : 'Get CSS variables'
+          ? 'Copied! JS object'
+          : 'Get JS object'
         }
       </Button>
     </Tooltip>
   );
 };
 
-CopyCSS.propTypes = propTypes;
-CopyCSS.defaultProps = defaultProps;
+CopyJS.propTypes = propTypes;
+CopyJS.defaultProps = defaultProps;
