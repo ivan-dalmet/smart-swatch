@@ -72,7 +72,7 @@ export const SaveSketchPalette = ({ colors }) => {
                 value={colorName}
                 onChange={e => setColorName(e.target.value)}
               />
-              <Button flex="none">
+              <Button type="submit" flex="none">
                 Download
               </Button>
             </Stack>
