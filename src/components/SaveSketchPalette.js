@@ -23,6 +23,7 @@ const defaultName = 'color';
 export const SaveSketchPalette = ({ colors }) => {
   const initialFocusRef = useRef();
   const [colorName, setColorName] = useState(defaultName);
+  const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const fileContent = `
   {
     "compatibleVersion":"2.0",
@@ -45,7 +46,13 @@ export const SaveSketchPalette = ({ colors }) => {
   const filename = colorName ? `${colorName.toLowerCase()}-` : '';
 
   return (
-    <Popover placement="bottom" initialFocusRef={initialFocusRef}>
+    <Popover
+      isOpen={isPopoverOpen}
+      placement="bottom"
+      initialFocusRef={initialFocusRef}
+      onOpen={() => setIsPopoverOpen(true)}
+      onClose={() => setIsPopoverOpen(false)}
+    >
       <PopoverTrigger>
         <Button size="xs">
           Save as .sketchpalette file
@@ -58,6 +65,7 @@ export const SaveSketchPalette = ({ colors }) => {
           onSubmit={(e) => {
             e.preventDefault();
             FileSaver.saveAs(blob, filenamify(`${filename}swatch.sketchpalette`));
+            setIsPopoverOpen(false);
             setColorName(defaultName);
           }}
         >
