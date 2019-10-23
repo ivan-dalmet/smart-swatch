@@ -6,6 +6,7 @@ import { CopySVG } from './CopySVG';
 import { CopyCSS } from './CopyCSS';
 import { CopyJS } from './CopyJS';
 import { SaveSketchPalette } from './SaveSketchPalette';
+import { getColorNumber } from '../utils/getColorNumber';
 
 const propTypes = {};
 const defaultProps = {};
@@ -45,7 +46,7 @@ export const Swatch = ({ title, colors, baseColorIndex }) => {
             key={color.hex()}
             color={color}
             isActive={baseColorIndex === i}
-            title={`color-${(i + 1)*100}`}
+            title={`color-${getColorNumber(i)}`}
             roundedTopLeft={i === 0 ? 'md' : null}
             roundedBottomLeft={i === 0 ? 'md' : null}
             roundedTopRight={i === (colors.length - 1) ? 'md' : null}

@@ -1,9 +1,5 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
 import { Button, Tooltip, useClipboard } from '@chakra-ui/core';
-
-const propTypes = {};
-const defaultProps = {};
 
 export const CopySVG = ({ colors }) => {
   const SVG = `
@@ -39,6 +35,3 @@ export const CopySVG = ({ colors }) => {
     </Tooltip>
   );
 };
-
-CopySVG.propTypes = propTypes;
-CopySVG.defaultProps = defaultProps;

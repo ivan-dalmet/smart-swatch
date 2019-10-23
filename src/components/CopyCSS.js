@@ -1,15 +1,12 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
 import { Button, Tooltip, useClipboard } from '@chakra-ui/core';
-
-const propTypes = {};
-const defaultProps = {};
+import { getColorNumber } from '../utils/getColorNumber';
 
 export const CopyCSS = ({ colors }) => {
   const CSS = `
 :root {${colors.map((color, i) =>
   `
-  --color-${(i + 1) * 100}: ${color.hex()};`
+  --color-${getColorNumber(i)}: ${color.hex()};`
   ).join('')}
 }`;
   const { onCopy, hasCopied } = useClipboard(CSS);
@@ -30,6 +27,3 @@ export const CopyCSS = ({ colors }) => {
     </Tooltip>
   );
 };
-
-CopyCSS.propTypes = propTypes;
-CopyCSS.defaultProps = defaultProps;

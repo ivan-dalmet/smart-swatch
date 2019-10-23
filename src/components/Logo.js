@@ -1,8 +1,4 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
-
-const propTypes = {};
-const defaultProps = {};
 
 export const Logo = ({ colors }) => {
   return (
@@ -16,6 +12,3 @@ export const Logo = ({ colors }) => {
     </svg>
   );
 };
-
-Logo.propTypes = propTypes;
-Logo.defaultProps = defaultProps;

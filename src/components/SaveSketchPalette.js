@@ -1,5 +1,4 @@
 import React, { useRef, useState } from 'react';
-// import PropTypes from 'prop-types';
 import {
   Input,
   Button,
@@ -14,9 +13,7 @@ import {
 } from '@chakra-ui/core';
 import filenamify from 'filenamify';
 import FileSaver from 'file-saver';
-
-const propTypes = {};
-const defaultProps = {};
+import { getColorNumber } from '../utils/getColorNumber';
 
 const defaultName = 'color';
 
@@ -31,7 +28,7 @@ export const SaveSketchPalette = ({ colors }) => {
     "colors":[
       ${colors.map((color, i) => `
         {
-          "name": "${colorName || defaultName} ${(i + 1) * 100}",
+          "name": "${colorName || defaultName} ${getColorNumber(i)}",
           "red": ${color.get('rgb.r')/255},
           "green": ${color.get('rgb.g')/255},
           "blue": ${color.get('rgb.b')/255},
@@ -90,6 +87,3 @@ export const SaveSketchPalette = ({ colors }) => {
     </Popover>
   );
 };
-
-SaveSketchPalette.propTypes = propTypes;
-SaveSketchPalette.defaultProps = defaultProps;

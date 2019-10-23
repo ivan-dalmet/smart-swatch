@@ -1,10 +1,6 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
 import chroma from 'chroma-js';
 import { Icon, Box, Button, AspectRatioBox, Text, useClipboard } from '@chakra-ui/core';
-
-const propTypes = {};
-const defaultProps = {};
 
 export const Color = ({ color, title, isActive, ...props }) => {
   const { onCopy, hasCopied } = useClipboard(color.hex());
@@ -54,6 +50,3 @@ export const Color = ({ color, title, isActive, ...props }) => {
     </Box>
   );
 };
-
-Color.propTypes = propTypes;
-Color.defaultProps = defaultProps;
