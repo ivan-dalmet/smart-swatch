@@ -3,6 +3,8 @@ import chroma from 'chroma-js';
 import { SketchPicker } from 'react-color';
 import {
   Box,
+  Button,
+  Flex,
   FormControl,
   FormLabel,
   Input,
@@ -18,23 +20,38 @@ import {
   Text,
   Link,
   useColorMode,
+  useClipboard,
 } from '@chakra-ui/core';
 import { FaPalette, FaHeart } from "react-icons/fa";
 
 import { Swatch } from '../components/Swatch';
 import { Logo } from '../components/Logo';
 
+const getInitialColorInput = () => {
+  const sanitizedHash = window.location.hash.replace('#', '');
+  return chroma.valid(sanitizedHash) ? chroma(sanitizedHash).name() : '#C70833';
+}
+
+const getUserColor = (colorString, fallbackFn = () => chroma('#000')) => chroma.valid(colorString)
+  ? chroma(colorString)
+  : fallbackFn();
+
 export const SmartSwatch = () => {
-  const [userColorInput, setUserColorInput] = useState('#C70833');
+  const [userColorInput, setUserColorInput] = useState(getInitialColorInput());
   const { colorMode, toggleColorMode } = useColorMode();
+
+  const { onCopy, hasCopied } = useClipboard(window.location);
 
   const lightnessMap = [0.95, 0.85, 0.75, 0.65, 0.55, 0.45, 0.35, 0.25, 0.15, 0.05];
   const saturationMap = [0.32, 0.16, 0.08, 0.04, 0, 0, 0.04, 0.08, 0.16, 0.32];
   const hueMap = [0, 4, 8, 12, 16, 20, 24, 28, 32, 36];
 
-  const userColor = chroma.valid(userColorInput.trim())
-    ? chroma(userColorInput.trim())
-    : chroma('#000');
+  const handleColorChange = (newColor) => {
+    setUserColorInput(newColor);
+    window.location.hash = getUserColor(newColor, () => '')
+  }
+
+  const userColor = getUserColor(userColorInput.trim());
 
   const lightnessGoal = userColor.get('hsl.l');
   const closestLightness = lightnessMap.reduce((prev, curr) =>
@@ -92,23 +109,31 @@ export const SmartSwatch = () => {
         </FormLabel>
         <Popover placement="bottom-start">
           <>
-            <InputGroup>
-              <InputLeftElement>
-                <PopoverTrigger>
-                  <IconButton size="xs" icon={FaPalette} />
-                </PopoverTrigger>
-              </InputLeftElement>
-              <Input
-                id="color"
-                onChange={e => setUserColorInput(e.target.value)}
-                value={userColorInput}
-                placeholder="e.g. #C70833 or SeaGreen"
-              />
-            </InputGroup>
+            <Flex>
+              <InputGroup flex={1}>
+                <InputLeftElement>
+                  <PopoverTrigger>
+                    <IconButton
+                      size="xs"
+                      icon={FaPalette}
+                    />
+                  </PopoverTrigger>
+                </InputLeftElement>
+                <Input
+                  id="color"
+                  onChange={e => handleColorChange(e.target.value)}
+                  value={userColorInput}
+                  placeholder="e.g. #C70833 or SeaGreen"
+                />
+                <Button onClick={onCopy} ml={2}>
+                  {hasCopied ? "Copied!" : "Copy URL"}
+                </Button>
+              </InputGroup>
+            </Flex>
             <PopoverContent zIndex={4} w="auto" color="black">
               <SketchPicker
                 color={userColorInput}
-                onChangeComplete={color => setUserColorInput(color.hex)}
+                onChangeComplete={color => handleColorChange(color.hex)}
                 disableAlpha
                 presetColors={[
                   '#C70833',
