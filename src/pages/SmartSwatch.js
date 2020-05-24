@@ -27,7 +27,7 @@ import { FaPalette, FaHeart } from "react-icons/fa";
 import { Swatch } from '../components/Swatch';
 import { Logo } from '../components/Logo';
 
-const getInitialColorInput = () => {
+const getColorStringFromHash = () => {
   const sanitizedHash = window.location.hash.replace('#', '');
   return chroma.valid(sanitizedHash) ? chroma(sanitizedHash).name() : '#C70833';
 }
@@ -37,10 +37,19 @@ const getUserColor = (colorString, fallbackFn = () => chroma('#000')) => chroma.
   : fallbackFn();
 
 export const SmartSwatch = () => {
-  const [userColorInput, setUserColorInput] = useState(getInitialColorInput());
+  const [userColorInput, setUserColorInput] = useState(getColorStringFromHash());
   const { colorMode, toggleColorMode } = useColorMode();
 
   const { onCopy, hasCopied } = useClipboard(window.location);
+
+  React.useEffect(function setupHashChangeEventEffect() {
+    const updateColorInput = () => setUserColorInput(getColorStringFromHash());
+
+    window.addEventListener('popstate', updateColorInput);
+    return () => {
+      window.removeEventListener('popstate', updateColorInput);
+    };
+  }, []);
 
   const lightnessMap = [0.95, 0.85, 0.75, 0.65, 0.55, 0.45, 0.35, 0.25, 0.15, 0.05];
   const saturationMap = [0.32, 0.16, 0.08, 0.04, 0, 0, 0.04, 0.08, 0.16, 0.32];
