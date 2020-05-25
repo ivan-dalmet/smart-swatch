@@ -47,7 +47,7 @@ const SATURATION_MAP = [0.32, 0.16, 0.08, 0.04, 0, 0, 0.04, 0.08, 0.16, 0.32];
 const HUE_MAP = [0, 4, 8, 12, 16, 20, 24, 28, 32, 36];
 
 const getColorStringFromHash = () => {
-  const sanitizedHash = window.location.hash.replace(UNKNOWN_USER_COLOR_STRING, '');
+  const sanitizedHash = window.location.hash.replace('#', '');
   return chroma.valid(sanitizedHash) ? chroma(sanitizedHash).name() : DEFAULT_USER_COLOR_STRING;
 }
 
@@ -62,13 +62,40 @@ export const SmartSwatch = () => {
 
   const { onCopy, hasCopied } = useClipboard(window.location);
 
-  React.useEffect(() => {
-    setUserColorChroma(getUserColorChroma(userColorInput.trim()));
+  React.useEffect(function updateColorChromaFromInputEffect() {
+    const trimmedColor = userColorInput.trim();
+    setUserColorChroma(getUserColorChroma(trimmedColor));
+
+
+    // Push new hash only if:
+    //  - represents a valid chroma color
+    //  - it's not the same color already in the hash so we avoid duplicated history states
+    if (chroma.valid(trimmedColor) && userColorInput !== getColorStringFromHash()) {
+      const newHash = trimmedColor.startsWith('#') ? trimmedColor : `#${trimmedColor}`;
+
+      // Using pushState rather than setting new hash directly through window.history.hash
+      // because pushState never causes a hashchange event to be fired.
+      window.history.pushState(null, null, newHash);
+    }
   }, [userColorInput]);
 
-  const handleColorChange = (newColor) => {
+  React.useEffect(function setupHashChangeEventListenerEffect() {
+    const updateColorInput = () => {
+      setUserColorInput(getColorStringFromHash())
+    };
+
+    // Listening to hashchange event, so combined with pushState method we make
+    // sure to only listen to hash changes because the user goes back/forward
+    // in browser history, and we discard hash changes because the user picked
+    // a new color.
+    window.addEventListener('hashchange', updateColorInput, false);
+    return () => {
+      window.removeEventListener('hashchange', updateColorInput);
+    };
+  }, []);
+
+  const handleUserColorChange = (newColor) => {
     setUserColorInput(newColor);
-    window.location.hash = chroma.valid(newColor) ? newColor : '';
   }
 
   const lightnessGoal = userColorChroma.get('hsl.l');
@@ -139,7 +166,7 @@ export const SmartSwatch = () => {
                 </InputLeftElement>
                 <Input
                   id="color"
-                  onChange={e => handleColorChange(e.target.value)}
+                  onChange={e => handleUserColorChange(e.target.value)}
                   value={userColorInput}
                   placeholder="e.g. #C70833 or SeaGreen"
                 />
@@ -151,7 +178,7 @@ export const SmartSwatch = () => {
             <PopoverContent zIndex={4} w="auto" color="black">
               <SketchPicker
                 color={userColorInput}
-                onChangeComplete={color => handleColorChange(color.hex)}
+                onChangeComplete={color => handleUserColorChange(color.hex)}
                 disableAlpha
                 presetColors={PRESET_COLORS}
               />
