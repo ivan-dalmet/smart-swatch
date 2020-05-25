@@ -27,55 +27,64 @@ import { FaPalette, FaHeart } from "react-icons/fa";
 import { Swatch } from '../components/Swatch';
 import { Logo } from '../components/Logo';
 
+const PRESET_COLORS = [
+  '#C70833',
+  '#E53E3E',
+  '#F6AD55',
+  '#F6E05E',
+  '#48BB78',
+  '#4FD1C5',
+  '#4299E1',
+  '#0BC5EA',
+  '#805AD5',
+  '#D53F8C',
+  '#718096',
+];
+const DEFAULT_USER_COLOR_STRING = PRESET_COLORS[0];
+const UNKNOWN_USER_COLOR_STRING = '#000';
+const LIGHTNESS_MAP = [0.95, 0.85, 0.75, 0.65, 0.55, 0.45, 0.35, 0.25, 0.15, 0.05];
+const SATURATION_MAP = [0.32, 0.16, 0.08, 0.04, 0, 0, 0.04, 0.08, 0.16, 0.32];
+const HUE_MAP = [0, 4, 8, 12, 16, 20, 24, 28, 32, 36];
+
 const getColorStringFromHash = () => {
-  const sanitizedHash = window.location.hash.replace('#', '');
-  return chroma.valid(sanitizedHash) ? chroma(sanitizedHash).name() : '#C70833';
+  const sanitizedHash = window.location.hash.replace(UNKNOWN_USER_COLOR_STRING, '');
+  return chroma.valid(sanitizedHash) ? chroma(sanitizedHash).name() : DEFAULT_USER_COLOR_STRING;
 }
 
-const getUserColor = (colorString, fallbackFn = () => chroma('#000')) => chroma.valid(colorString)
+const getUserColorChroma = (colorString, fallbackValue = UNKNOWN_USER_COLOR_STRING) => chroma.valid(colorString)
   ? chroma(colorString)
-  : fallbackFn();
+  : chroma(fallbackValue);
 
 export const SmartSwatch = () => {
   const [userColorInput, setUserColorInput] = useState(getColorStringFromHash());
+  const [userColorChroma, setUserColorChroma] = useState(getUserColorChroma(userColorInput.trim()));
   const { colorMode, toggleColorMode } = useColorMode();
 
   const { onCopy, hasCopied } = useClipboard(window.location);
 
-  React.useEffect(function setupHashChangeEventEffect() {
-    const updateColorInput = () => setUserColorInput(getColorStringFromHash());
-
-    window.addEventListener('popstate', updateColorInput);
-    return () => {
-      window.removeEventListener('popstate', updateColorInput);
-    };
-  }, []);
-
-  const lightnessMap = [0.95, 0.85, 0.75, 0.65, 0.55, 0.45, 0.35, 0.25, 0.15, 0.05];
-  const saturationMap = [0.32, 0.16, 0.08, 0.04, 0, 0, 0.04, 0.08, 0.16, 0.32];
-  const hueMap = [0, 4, 8, 12, 16, 20, 24, 28, 32, 36];
+  React.useEffect(() => {
+    setUserColorChroma(getUserColorChroma(userColorInput.trim()));
+  }, [userColorInput]);
 
   const handleColorChange = (newColor) => {
     setUserColorInput(newColor);
-    window.location.hash = getUserColor(newColor, () => '')
+    window.location.hash = chroma.valid(newColor) ? newColor : '';
   }
 
-  const userColor = getUserColor(userColorInput.trim());
-
-  const lightnessGoal = userColor.get('hsl.l');
-  const closestLightness = lightnessMap.reduce((prev, curr) =>
+  const lightnessGoal = userColorChroma.get('hsl.l');
+  const closestLightness = LIGHTNESS_MAP.reduce((prev, curr) =>
     Math.abs(curr - lightnessGoal) < Math.abs(prev - lightnessGoal)
     ? curr
     : prev
   );
 
-  const baseColorIndex = lightnessMap.findIndex(l => l === closestLightness);
+  const baseColorIndex = LIGHTNESS_MAP.findIndex(l => l === closestLightness);
 
-  const colors = lightnessMap
-    .map((l) => userColor.set('hsl.l', l))
+  const colors = LIGHTNESS_MAP
+    .map((l) => userColorChroma.set('hsl.l', l))
     .map(color => chroma(color))
     .map((color, i) => {
-      const saturationDelta = saturationMap[i] - saturationMap[baseColorIndex];
+      const saturationDelta = SATURATION_MAP[i] - SATURATION_MAP[baseColorIndex];
       return saturationDelta >= 0
         ? color.saturate(saturationDelta)
         : color.desaturate(saturationDelta * -1);
@@ -83,7 +92,7 @@ export const SmartSwatch = () => {
 
   const colorsHueUp = colors
     .map((color, i) => {
-      const hueDelta = hueMap[i] - hueMap[baseColorIndex];
+      const hueDelta = HUE_MAP[i] - HUE_MAP[baseColorIndex];
       return hueDelta >= 0
         ? color.set('hsl.h', `+${hueDelta}`)
         : color.set('hsl.h', `+${(hueDelta * -1) / 2}`)
@@ -91,7 +100,7 @@ export const SmartSwatch = () => {
 
   const colorsHueDown = colors
     .map((color, i) => {
-      const hueDelta = hueMap[i] - hueMap[baseColorIndex];
+      const hueDelta = HUE_MAP[i] - HUE_MAP[baseColorIndex];
       return hueDelta >= 0
         ? color.set('hsl.h', `-${hueDelta}`)
         : color.set('hsl.h', `-${(hueDelta * -1) / 2}`)
@@ -144,19 +153,7 @@ export const SmartSwatch = () => {
                 color={userColorInput}
                 onChangeComplete={color => handleColorChange(color.hex)}
                 disableAlpha
-                presetColors={[
-                  '#C70833',
-                  '#E53E3E',
-                  '#F6AD55',
-                  '#F6E05E',
-                  '#48BB78',
-                  '#4FD1C5',
-                  '#4299E1',
-                  '#0BC5EA',
-                  '#805AD5',
-                  '#D53F8C',
-                  '#718096',
-                ]}
+                presetColors={PRESET_COLORS}
               />
             </PopoverContent>
           </>
