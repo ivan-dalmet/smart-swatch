@@ -17,3 +17,7 @@ yarn install
 ```
 yarn start
 ```
+
+# Contributors
+
+[@IvanDalmet](https://github.com/ivan-dalmet), [@Belco90](https://github.com/Belco90)
