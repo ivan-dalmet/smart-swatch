@@ -26,6 +26,7 @@ import { FaPalette, FaHeart } from "react-icons/fa";
 
 import { Swatch } from '../components/Swatch';
 import { Logo } from '../components/Logo';
+import debounce from '../utils/debounce';
 
 const PRESET_COLORS = [
   '#C70833',
@@ -62,22 +63,25 @@ export const SmartSwatch = () => {
 
   const { onCopy, hasCopied } = useClipboard(window.location);
 
-  React.useEffect(function updateColorChromaFromInputEffect() {
-    const trimmedColor = userColorInput.trim();
-    setUserColorChroma(getUserColorChroma(trimmedColor));
-
-
+  const updateColorHashDebounced = React.useCallback(debounce((newUserColorInput) => {
     // Push new hash only if:
     //  - represents a valid chroma color
     //  - it's not the same color already in the hash so we avoid duplicated history states
-    if (chroma.valid(trimmedColor) && userColorInput !== getColorStringFromHash()) {
-      const newHash = trimmedColor.startsWith('#') ? trimmedColor : `#${trimmedColor}`;
+    if (chroma.valid(newUserColorInput) && newUserColorInput !== getColorStringFromHash()) {
+      const newHash = newUserColorInput.startsWith('#') ? newUserColorInput : `#${newUserColorInput}`;
 
       // Using pushState rather than setting new hash directly through window.history.hash
       // because pushState never causes a hashchange event to be fired.
       window.history.pushState(null, null, newHash);
     }
-  }, [userColorInput]);
+  }, 500), []);
+
+  React.useEffect(function updateColorChromaFromInputEffect() {
+    const trimmedColor = userColorInput.trim();
+    setUserColorChroma(getUserColorChroma(trimmedColor));
+
+    updateColorHashDebounced(trimmedColor);
+  }, [userColorInput, updateColorHashDebounced]);
 
   React.useEffect(function setupHashChangeEventListenerEffect() {
     const updateColorInput = () => {
