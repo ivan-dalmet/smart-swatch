@@ -75,7 +75,6 @@ export const SmartSwatch = () => {
   const [lightnessMap, setLightnessMap] = useState(LIGHTNESS_MAP)
 
   React.useEffect(() => {
-    console.log(getLightnessMap(lightnessStep))
     setLightnessMap(getLightnessMap(lightnessStep))
   }, [lightnessStep])
 
@@ -146,7 +145,6 @@ export const SmartSwatch = () => {
         ? color.set('hsl.h', `+${hueDelta}`)
         : color.set('hsl.h', `+${(hueDelta * -1) / 2}`)
     });
-    console.log(colors)
   const colorsHueDown = colors
     .map((color, i) => {
       const hueDelta = HUE_MAP[i] - HUE_MAP[baseColorIndex];
