@@ -210,26 +210,25 @@ export const SmartSwatch = () => {
       </FormControl>
 
       <Stack direction="column" mb={3}>
-      <Text
+        <Text
           fontSize="lg"
           fontWeight="bold"
           my="1"
         >
           Brightness
         </Text>
-      <Slider
-        aria-label="slider-ex-1"
-        defaultValue={.1}
-        min={0}
-        max={.2}
-        step={.005}
-        onChange={setLightnessStep}
-      >
-        <SliderTrack/>
-        <SliderFilledTrack />
-        <SliderThumb />
-      </Slider>
-      <Text>{lightnessStep}</Text>
+        <Slider
+          aria-label="slider-ex-1"
+          defaultValue={.1}
+          min={0}
+          max={.2}
+          step={.005}
+          onChange={setLightnessStep}
+        >
+          <SliderTrack/>
+          <SliderFilledTrack bg={userColorInput} opacity={lightnessStep*10/2} />
+          <SliderThumb />
+        </Slider>
       </Stack>
       <Swatch
         title="Base"
