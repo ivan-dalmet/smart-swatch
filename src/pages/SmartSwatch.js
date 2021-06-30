@@ -146,7 +146,7 @@ export const SmartSwatch = () => {
         ? color.set('hsl.h', `+${hueDelta}`)
         : color.set('hsl.h', `+${(hueDelta * -1) / 2}`)
     });
-
+    console.log(colors)
   const colorsHueDown = colors
     .map((color, i) => {
       const hueDelta = HUE_MAP[i] - HUE_MAP[baseColorIndex];
@@ -226,7 +226,7 @@ export const SmartSwatch = () => {
           onChange={setLightnessStep}
         >
           <SliderTrack/>
-          <SliderFilledTrack bg={userColorInput} opacity={lightnessStep*10/2} />
+          <SliderFilledTrack bg={colors[4].hex()} />
           <SliderThumb />
         </Slider>
       </Stack>
