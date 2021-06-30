@@ -54,13 +54,8 @@ const HUE_MAP = [0, 4, 8, 12, 16, 20, 24, 28, 32, 36];
 const LIGHTNESS_MAP_START = 0.95
 
 const getLightnessMap = (step) => {
-  const start = step < 0 ? 1 - LIGHTNESS_MAP_START : LIGHTNESS_MAP_START
-  const lightnessMap = Array(10).fill(start)
+  return Array(10).fill(LIGHTNESS_MAP_START)
     .map((a,i) => parseFloat((a - step*i).toFixed(2)))
-    .map(e => e > 1 ? 1 : e < 0 ? 0 : e)
-  if (step < 0)
-    return lightnessMap.reverse()
-  return lightnessMap;
 }
 
 const getColorStringFromHash = () => {
@@ -225,8 +220,8 @@ export const SmartSwatch = () => {
       <Slider
         aria-label="slider-ex-1"
         defaultValue={.1}
-        min={-.3}
-        max={.3}
+        min={0}
+        max={.2}
         step={.005}
         onChange={setLightnessStep}
       >
