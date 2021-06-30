@@ -43,7 +43,7 @@ export const Swatch = ({ title, colors, baseColorIndex }) => {
       <Stack isInline mb="8" spacing="0">
         {colors.map((color, i) => (
           <Color
-            key={color.hex()}
+            key={`${color.hex()}${i}`}
             color={color}
             isActive={baseColorIndex === i}
             title={`color-${getColorNumber(i)}`}

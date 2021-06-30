@@ -21,6 +21,10 @@ import {
   Link,
   useColorMode,
   useClipboard,
+  Slider,
+  SliderTrack,
+  SliderFilledTrack,
+  SliderThumb,
 } from '@chakra-ui/core';
 import { FaPalette, FaHeart } from "react-icons/fa";
 
@@ -47,6 +51,18 @@ const LIGHTNESS_MAP = [0.95, 0.85, 0.75, 0.65, 0.55, 0.45, 0.35, 0.25, 0.15, 0.
 const SATURATION_MAP = [0.32, 0.16, 0.08, 0.04, 0, 0, 0.04, 0.08, 0.16, 0.32];
 const HUE_MAP = [0, 4, 8, 12, 16, 20, 24, 28, 32, 36];
 
+const LIGHTNESS_MAP_START = 0.95
+
+const getLightnessMap = (step) => {
+  const start = step < 0 ? 1 - LIGHTNESS_MAP_START : LIGHTNESS_MAP_START
+  const lightnessMap = Array(10).fill(start)
+    .map((a,i) => parseFloat((a - step*i).toFixed(2)))
+    .map(e => e > 1 ? 1 : e < 0 ? 0 : e)
+  if (step < 0)
+    return lightnessMap.reverse()
+  return lightnessMap;
+}
+
 const getColorStringFromHash = () => {
   const sanitizedHash = window.location.hash.replace('#', '');
   return chroma.valid(sanitizedHash) ? chroma(sanitizedHash).name() : DEFAULT_USER_COLOR_STRING;
@@ -60,6 +76,13 @@ export const SmartSwatch = () => {
   const [userColorInput, setUserColorInput] = useState(getColorStringFromHash());
   const [userColorChroma, setUserColorChroma] = useState(getUserColorChroma(userColorInput.trim()));
   const { colorMode, toggleColorMode } = useColorMode();
+  const [lightnessStep, setLightnessStep] = useState(.1)
+  const [lightnessMap, setLightnessMap] = useState(LIGHTNESS_MAP)
+
+  React.useEffect(() => {
+    console.log(getLightnessMap(lightnessStep))
+    setLightnessMap(getLightnessMap(lightnessStep))
+  }, [lightnessStep])
 
   const { onCopy, hasCopied } = useClipboard(window.location);
 
@@ -103,15 +126,15 @@ export const SmartSwatch = () => {
   }
 
   const lightnessGoal = userColorChroma.get('hsl.l');
-  const closestLightness = LIGHTNESS_MAP.reduce((prev, curr) =>
+  const closestLightness = lightnessMap.reduce((prev, curr) =>
     Math.abs(curr - lightnessGoal) < Math.abs(prev - lightnessGoal)
     ? curr
     : prev
   );
 
-  const baseColorIndex = LIGHTNESS_MAP.findIndex(l => l === closestLightness);
+  const baseColorIndex = lightnessMap.findIndex(l => l === closestLightness);
 
-  const colors = LIGHTNESS_MAP
+  const colors = lightnessMap
     .map((l) => userColorChroma.set('hsl.l', l))
     .map(color => chroma(color))
     .map((color, i) => {
@@ -191,11 +214,34 @@ export const SmartSwatch = () => {
         </Popover>
       </FormControl>
 
+      <Stack direction="column" mb={3}>
+      <Text
+          fontSize="lg"
+          fontWeight="bold"
+          my="1"
+        >
+          Brightness
+        </Text>
+      <Slider
+        aria-label="slider-ex-1"
+        defaultValue={.1}
+        min={-.3}
+        max={.3}
+        step={.005}
+        onChange={setLightnessStep}
+      >
+        <SliderTrack/>
+        <SliderFilledTrack />
+        <SliderThumb />
+      </Slider>
+      <Text>{lightnessStep}</Text>
+      </Stack>
       <Swatch
         title="Base"
         colors={colors}
         baseColorIndex={baseColorIndex}
       />
+      
       <Swatch
         title="Hue Up"
         colors={colorsHueUp}
