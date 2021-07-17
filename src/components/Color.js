@@ -17,6 +17,7 @@ export const Color = ({ color, title, isActive, ...props }) => {
     >
       <AspectRatio ratio={1}>
         <Button
+          flexDirection="column"
           onClick={onCopy}
           variant="unstyled"
           backgroundColor={color.hex()}
