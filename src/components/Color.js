@@ -1,6 +1,7 @@
 import React from 'react';
 import chroma from 'chroma-js';
-import { Icon, Box, Button, AspectRatio, Text, useClipboard } from '@chakra-ui/react';
+import { Box, Button, AspectRatio, Text, useClipboard } from '@chakra-ui/react';
+import { CheckIcon } from '@chakra-ui/icons'
 
 export const Color = ({ color, title, isActive, ...props }) => {
   const { onCopy, hasCopied } = useClipboard(color.hex());
@@ -39,7 +40,7 @@ export const Color = ({ color, title, isActive, ...props }) => {
             {title}
           </Text>
           <Text>
-            {hasCopied && <Icon name="check" size="10px" />}
+            {hasCopied && <CheckIcon boxSize="10px" />}
             <Text as="span" display={{ base: 'none', lg: 'block' }}>
               {hasCopied ?
                 'Copied' :
