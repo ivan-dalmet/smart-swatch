@@ -1,18 +1,16 @@
-import React from 'react';
-import { ThemeProvider, ColorModeProvider, CSSReset, Box } from "@chakra-ui/core";
+import React from "react";
+import { Box } from "@chakra-ui/core";
 
-import { SmartSwatch } from './pages/SmartSwatch';
+import { SmartSwatch } from "./pages/SmartSwatch";
+import { ChakraProvider } from "@chakra-ui/react";
 
 function App() {
   return (
-    <ThemeProvider>
-      <ColorModeProvider>
-        <CSSReset />
-        <Box px="8" pt="6" pb="12" maxW="6xl" m="auto">
-          <SmartSwatch />
-        </Box>
-      </ColorModeProvider>
-    </ThemeProvider>
+    <ChakraProvider>
+      <Box px="8" pt="6" pb="12" maxW="6xl" m="auto">
+        <SmartSwatch />
+      </Box>
+    </ChakraProvider>
   );
 }
 
