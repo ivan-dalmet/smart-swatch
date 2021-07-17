@@ -21,7 +21,7 @@ import {
   Link,
   useColorMode,
   useClipboard,
-} from '@chakra-ui/core';
+} from '@chakra-ui/react';
 import { FaPalette, FaHeart } from "react-icons/fa";
 
 import { Swatch } from '../components/Swatch';
@@ -142,14 +142,14 @@ export const SmartSwatch = () => {
       <Stack isInline align="flex-end" mb="2">
         <Logo colors={colors} />
         <Stack isInline ml="auto" align="center" mb="1">
-          <Icon name="moon" size="14px" opacity={colorMode !== 'dark' ? '0.3' : null} />
+          <Icon name="moon" boxSize="14px" opacity={colorMode !== 'dark' ? '0.3' : null} />
           <Switch
             size="md"
             isChecked={colorMode === 'light'}
             onChange={toggleColorMode}
             color="none"
           />
-          <Icon name="sun" size="14px" opacity={colorMode !== 'light' ? '0.3' : null} />
+          <Icon name="sun" boxSize="14px" opacity={colorMode !== 'light' ? '0.3' : null} />
         </Stack>
       </Stack>
       <FormControl mb="6">
@@ -217,7 +217,7 @@ export const SmartSwatch = () => {
         color="gray.500"
       >
         <Text>Developed with</Text>
-        <Box as={FaHeart} size="12px" />
+        <Box as={FaHeart} boxSize="12px" />
         <Text>by</Text>
         <Link href="https://ivan.dalmet.fr" color={colors[5].hex()}>
           Ivan Dalmet

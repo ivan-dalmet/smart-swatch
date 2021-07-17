@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Tooltip, useClipboard } from '@chakra-ui/core';
+import { Button, Tooltip, useClipboard } from '@chakra-ui/react';
 import { getColorNumber } from '../utils/getColorNumber';
 
 export const CopyJS = ({ colors }) => {

@@ -1,6 +1,6 @@
 import React from 'react';
 // import PropTypes from 'prop-types';
-import { Box, Stack, Text } from '@chakra-ui/core';
+import { Box, Stack, Text } from '@chakra-ui/react';
 import { Color } from './Color';
 import { CopySVG } from './CopySVG';
 import { CopyCSS } from './CopyCSS';

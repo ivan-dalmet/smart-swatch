@@ -1,6 +1,6 @@
 import React from 'react';
 import chroma from 'chroma-js';
-import { Icon, Box, Button, AspectRatioBox, Text, useClipboard } from '@chakra-ui/core';
+import { Icon, Box, Button, AspectRatio, Text, useClipboard } from '@chakra-ui/react';
 
 export const Color = ({ color, title, isActive, ...props }) => {
   const { onCopy, hasCopied } = useClipboard(color.hex());
@@ -15,7 +15,7 @@ export const Color = ({ color, title, isActive, ...props }) => {
       rounded={isActive ? 'md' : null}
       shadow={isActive ? 'md' : null}
     >
-      <AspectRatioBox ratio={1}>
+      <AspectRatio ratio={1}>
         <Button
           onClick={onCopy}
           variant="unstyled"
@@ -46,7 +46,7 @@ export const Color = ({ color, title, isActive, ...props }) => {
             </Text>
           </Text>
         </Button>
-      </AspectRatioBox>
+      </AspectRatio>
     </Box>
   );
 };

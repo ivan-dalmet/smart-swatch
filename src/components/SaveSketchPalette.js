@@ -10,7 +10,7 @@ import {
   FormLabel,
   PopoverArrow,
   Stack,
-} from '@chakra-ui/core';
+} from '@chakra-ui/react';
 import filenamify from 'filenamify';
 import FileSaver from 'file-saver';
 import { getColorNumber } from '../utils/getColorNumber';
