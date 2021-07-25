@@ -22,6 +22,7 @@ import {
   useColorMode,
   useClipboard,
 } from '@chakra-ui/react';
+import { MoonIcon, SunIcon } from '@chakra-ui/icons'
 import { FaPalette, FaHeart } from "react-icons/fa";
 
 import { Swatch } from '../components/Swatch';
@@ -139,17 +140,17 @@ export const SmartSwatch = () => {
 
   return (
     <>
-      <Stack isInline align="flex-end" mb="2">
+      <Stack isInline align="flex-end" mb="2" justify="space-between">
         <Logo colors={colors} />
         <Stack isInline ml="auto" align="center" mb="1">
-          <Icon name="moon" boxSize="14px" opacity={colorMode !== 'dark' ? '0.3' : null} />
+          <MoonIcon boxSize="14px" opacity={colorMode !== 'dark' ? '0.3' : null} />
           <Switch
             size="md"
             isChecked={colorMode === 'light'}
             onChange={toggleColorMode}
-            color="none"
+            colorScheme="white"
           />
-          <Icon name="sun" boxSize="14px" opacity={colorMode !== 'light' ? '0.3' : null} />
+          <SunIcon boxSize="14px" opacity={colorMode !== 'light' ? '0.3' : null} />
         </Stack>
       </Stack>
       <FormControl mb="6">
@@ -164,7 +165,7 @@ export const SmartSwatch = () => {
                   <PopoverTrigger>
                     <IconButton
                       size="xs"
-                      icon={FaPalette}
+                      icon={<FaPalette/>}
                     />
                   </PopoverTrigger>
                 </InputLeftElement>
