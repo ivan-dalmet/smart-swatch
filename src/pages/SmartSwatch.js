@@ -10,7 +10,6 @@ import {
   Input,
   InputGroup,
   InputLeftElement,
-  Icon,
   IconButton,
   Popover,
   PopoverTrigger,
