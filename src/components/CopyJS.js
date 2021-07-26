@@ -1,13 +1,16 @@
-import React from 'react';
-import { Button, Tooltip, useClipboard } from '@chakra-ui/core';
-import { getColorNumber } from '../utils/getColorNumber';
+import React from "react";
+import { Button, Tooltip, useClipboard } from "@chakra-ui/react";
+import { getColorNumber } from "../utils/getColorNumber";
 
 export const CopyJS = ({ colors }) => {
   const JS = `
-{${colors.map((color, i) =>
-  `
-  ${getColorNumber(i)}: '${color.hex()}',`
-).join('')}
+{${colors
+    .map(
+      (color, i) =>
+        `
+  ${getColorNumber(i)}: '${color.hex()}',`,
+    )
+    .join("")}
 }`;
 
   const { onCopy, hasCopied } = useClipboard(JS);
@@ -20,10 +23,7 @@ export const CopyJS = ({ colors }) => {
       zIndex="6"
     >
       <Button size="xs" onClick={onCopy}>
-        {hasCopied
-          ? 'Copied! JS object'
-          : 'Get JS object'
-        }
+        {hasCopied ? "Copied! JS object" : "Get JS object"}
       </Button>
     </Tooltip>
   );

@@ -1,11 +1,13 @@
-import React from 'react';
-import { Button, Tooltip, useClipboard } from '@chakra-ui/core';
+import React from "react";
+import { Button, Tooltip, useClipboard } from "@chakra-ui/react";
 
 export const CopySVG = ({ colors }) => {
   const SVG = `
   <svg xmlns="http://www.w3.org/2000/svg" width="200" height="20" viewBox="0 0 200 20">
     <g fill="none" fill-rule="evenodd">
-      ${colors.map((color, i) => `
+      ${colors
+        .map(
+          (color, i) => `
         <rect
           key="${color.hex()}"
           width="20"
@@ -13,7 +15,9 @@ export const CopySVG = ({ colors }) => {
           fill="${color.hex()}"
           x="${20 * i}"
         />
-      `).join('')}
+      `,
+        )
+        .join("")}
     </g>
   </svg>
   `;
@@ -27,10 +31,7 @@ export const CopySVG = ({ colors }) => {
       zIndex="6"
     >
       <Button size="xs" onClick={onCopy}>
-        {hasCopied
-          ? 'Copied! Figma/Sketch'
-          : 'Get for Figma/Sketch'
-        }
+        {hasCopied ? "Copied! Figma/Sketch" : "Get for Figma/Sketch"}
       </Button>
     </Tooltip>
   );

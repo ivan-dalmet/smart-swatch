@@ -1,12 +1,12 @@
-import React from 'react';
+import React from "react";
 // import PropTypes from 'prop-types';
-import { Box, Stack, Text } from '@chakra-ui/core';
-import { Color } from './Color';
-import { CopySVG } from './CopySVG';
-import { CopyCSS } from './CopyCSS';
-import { CopyJS } from './CopyJS';
-import { SaveSketchPalette } from './SaveSketchPalette';
-import { getColorNumber } from '../utils/getColorNumber';
+import { Box, Stack, Text } from "@chakra-ui/react";
+import { Color } from "./Color";
+import { CopySVG } from "./CopySVG";
+import { CopyCSS } from "./CopyCSS";
+import { CopyJS } from "./CopyJS";
+import { SaveSketchPalette } from "./SaveSketchPalette";
+import { getColorNumber } from "../utils/getColorNumber";
 
 const propTypes = {};
 const defaultProps = {};
@@ -14,17 +14,8 @@ const defaultProps = {};
 export const Swatch = ({ title, colors, baseColorIndex }) => {
   return (
     <>
-      <Stack
-        isInline
-        spacing="3"
-        mb="2"
-        flexWrap="wrap"
-      >
-        <Text
-          fontSize="lg"
-          fontWeight="bold"
-          my="1"
-        >
+      <Stack isInline spacing="3" mb="2" flexWrap="wrap">
+        <Text fontSize="lg" fontWeight="bold" my="1">
           {title}
         </Text>
         <Box my="1">
@@ -47,13 +38,13 @@ export const Swatch = ({ title, colors, baseColorIndex }) => {
             color={color}
             isActive={baseColorIndex === i}
             title={`color-${getColorNumber(i)}`}
-            roundedTopLeft={i === 0 ? 'md' : null}
-            roundedBottomLeft={i === 0 ? 'md' : null}
-            roundedTopRight={i === (colors.length - 1) ? 'md' : null}
-            roundedBottomRight={i === (colors.length - 1) ? 'md' : null}
+            roundedTopLeft={i === 0 ? "md" : null}
+            roundedBottomLeft={i === 0 ? "md" : null}
+            roundedTopRight={i === colors.length - 1 ? "md" : null}
+            roundedBottomRight={i === colors.length - 1 ? "md" : null}
           />
         ))}
-    </Stack>
+      </Stack>
     </>
   );
 };

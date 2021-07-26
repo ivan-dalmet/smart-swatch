@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState } from "react";
 import {
   Input,
   Button,
@@ -10,12 +10,12 @@ import {
   FormLabel,
   PopoverArrow,
   Stack,
-} from '@chakra-ui/core';
-import filenamify from 'filenamify';
-import FileSaver from 'file-saver';
-import { getColorNumber } from '../utils/getColorNumber';
+} from "@chakra-ui/react";
+import filenamify from "filenamify";
+import FileSaver from "file-saver";
+import { getColorNumber } from "../utils/getColorNumber";
 
-const defaultName = 'color';
+const defaultName = "color";
 
 export const SaveSketchPalette = ({ colors }) => {
   const initialFocusRef = useRef();
@@ -26,21 +26,27 @@ export const SaveSketchPalette = ({ colors }) => {
     "compatibleVersion":"2.0",
     "pluginVersion":"2.22",
     "colors":[
-      ${colors.map((color, i) => `
+      ${colors
+        .map(
+          (color, i) => `
         {
           "name": "${colorName || defaultName} ${getColorNumber(i)}",
-          "red": ${color.get('rgb.r')/255},
-          "green": ${color.get('rgb.g')/255},
-          "blue": ${color.get('rgb.b')/255},
+          "red": ${color.get("rgb.r") / 255},
+          "green": ${color.get("rgb.g") / 255},
+          "blue": ${color.get("rgb.b") / 255},
           "alpha": 1
         }
-      `).join(',')}
+      `,
+        )
+        .join(",")}
     ]
   }
   `;
 
-  const blob = new Blob([fileContent], {type: "text/plain;charset=utf-8"});
-  const filename = colorName ? `${colorName.toLowerCase()}-` : '';
+  const blob = new Blob([fileContent], {
+    type: "text/plain;charset=utf-8",
+  });
+  const filename = colorName ? `${colorName.toLowerCase()}-` : "";
 
   return (
     <Popover
@@ -51,9 +57,7 @@ export const SaveSketchPalette = ({ colors }) => {
       onClose={() => setIsPopoverOpen(false)}
     >
       <PopoverTrigger>
-        <Button size="xs">
-          Save as .sketchpalette file
-        </Button>
+        <Button size="xs">Save as .sketchpalette file</Button>
       </PopoverTrigger>
       <PopoverContent zIndex={4}>
         <PopoverArrow />
@@ -61,7 +65,10 @@ export const SaveSketchPalette = ({ colors }) => {
           as="form"
           onSubmit={(e) => {
             e.preventDefault();
-            FileSaver.saveAs(blob, filenamify(`${filename}swatch.sketchpalette`));
+            FileSaver.saveAs(
+              blob,
+              filenamify(`${filename}swatch.sketchpalette`),
+            );
             setIsPopoverOpen(false);
             setColorName(defaultName);
           }}
@@ -75,7 +82,7 @@ export const SaveSketchPalette = ({ colors }) => {
                 id="sketch-palette-color-name"
                 ref={initialFocusRef}
                 value={colorName}
-                onChange={e => setColorName(e.target.value)}
+                onChange={(e) => setColorName(e.target.value)}
               />
               <Button type="submit" flex="none">
                 Download
